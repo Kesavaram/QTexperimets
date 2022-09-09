@@ -69,11 +69,13 @@ class App(QMainWindow):
 
         
         # Create a button in the window
-        self.button = QPushButton('Show text', self)
+        self.button = QPushButton('Calculate', self)
+        self.button.setDefault = True
+        self.button.setAutoDefault = False
         self.button.move(20,200)
         
         # connect button to function on_click
-        self.button.clicked.connect(self.on_click)
+       
         self.button.pressed.connect(self.on_click)
         self.show()
     
