@@ -9,10 +9,10 @@ class App(QMainWindow):
     def __init__(self):
         super().__init__()
         self.title = 'PyQt5 textbox - pythonspot.com'
-        self.left = 10
-        self.top = 10
-        self.width = 400
-        self.height = 140
+        self.left = 50
+        self.top = 50
+        self.width = 500
+        self.height = 500
         self.initUI()
     
     def initUI(self):
