@@ -30,7 +30,7 @@ class App(QMainWindow):
 
         #create Buy label
         self.buyLabel = QLabel(self)
-        self.buyLabel.setText("buy Price")
+        self.buyLabel.setText("Buy Price")
         self.buyLabel.move(self.xPosPLOffset + 10,self.yPosPLOffset + 60 )
         self.buyLabel.setLineWidth(100)
 
@@ -48,34 +48,42 @@ class App(QMainWindow):
         self.sellPriceBox.move(self.xPosPLOffset + 100, self.yPosPLOffset + 120)
         self.sellPriceBox.resize(100,40)
 
-        #create Buy label
+        #create sell price label
         self.sellPricelabel = QLabel(self)
-        self.sellPricelabel.setText("sell Price")
+        self.sellPricelabel.setText("Sell Price")
         self.sellPricelabel.move(self.xPosPLOffset + 10,self.yPosPLOffset + 120)
         self.sellPricelabel.setLineWidth(100)
+
+        #create fee percent label
+        self.sellPricelabel = QLabel(self)
+        self.sellPricelabel.setText("Fees percent")
+        self.sellPricelabel.move(self.xPosPLOffset + 10,self.yPosPLOffset + 180)
+        self.sellPricelabel.setLineWidth(100)
+
+        #create fees percent textbox
+        self.feesPercenteBox = QLineEdit(self)
+        self.feesPercenteBox.windowTitle = "sell"
+        self.feesPercenteBox.move(self.xPosPLOffset + 100, self.yPosPLOffset + 180)
+        self.feesPercenteBox.resize(100,40)
 
 
          #create Result label
         self.Resultlabel = QLabel(self)
         self.Resultlabel.setText("Percent:")
-        self.Resultlabel.move(self.xPosPLOffset + 10,self.yPosPLOffset + 250)
+        self.Resultlabel.move(self.xPosPLOffset + 10,self.yPosPLOffset + 300)
         self.Resultlabel.setLineWidth(100)
 
         #create Result percent label
         self.ResultPercentlabel = QLabel(self)
         self.ResultPercentlabel.setText("")
-        self.ResultPercentlabel.move(self.xPosPLOffset + 90,self.yPosPLOffset + 250)
+        self.ResultPercentlabel.move(self.xPosPLOffset + 90,self.yPosPLOffset + 300)
         self.ResultPercentlabel.setLineWidth(100)
 
-
-
-
-        
         # Create a button in the window
         self.button = QPushButton('Calculate', self)
         self.button.setDefault = True
         self.button.setAutoDefault = False
-        self.button.move(self.xPosPLOffset + 20,self.yPosPLOffset + 200)
+        self.button.move(self.xPosPLOffset + 20,self.yPosPLOffset + 250)
         
         # connect button to function on_click
        
@@ -86,14 +94,11 @@ class App(QMainWindow):
     def on_click(self):
         buyPrice = float(self.buyPriceBox.text()) 
         sellPrice = float(self.sellPriceBox.text())
-        PLpercent = ((sellPrice - buyPrice) / buyPrice )*100.00 
-        diff = sellPrice - buyPrice
+        feesPercent = float(self.feesPercenteBox.text())
+        PLpercent = ((sellPrice - buyPrice) / buyPrice )*100.00 - 2*feesPercent
         result = f'{PLpercent:.2f}' #formats output to 2 decimal places.
         
         self.ResultPercentlabel.setText(str(result))
-        
-        #QMessageBox.question(self, 'Message - pythonspot.com', "pl percent = : " +  str(result) , QMessageBox.Ok, QMessageBox.Ok)
-        #self.textbox.setText("")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
