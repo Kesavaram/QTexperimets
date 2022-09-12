@@ -19,7 +19,7 @@ class App(QMainWindow):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
-        self.xPosPLOffset = 150
+        self.xPosPLOffset = 125
         self.yPosPLOffset = 25
 
         #create a label
@@ -81,7 +81,7 @@ class App(QMainWindow):
 
         #create fees percent textbox
         self.feesPercenteBox = QLineEdit(self)
-        self.feesPercenteBox.windowTitle = "sell"
+        self.feesPercenteBox.windowTitle = "fees percent textbox"
         self.feesPercenteBox.move(self.xPosPLOffset + 100, self.yPosPLOffset + 300)
         self.feesPercenteBox.resize(100,40)
 
@@ -149,7 +149,7 @@ class App(QMainWindow):
         self.TP.move(self.marginSLTPxPosOffset ,self.marginSLTPyPosOffset + 180 )
         self.TP.setLineWidth(100)
  
-        # Create TP  textbox
+        # Create SL  textbox
         self.TPbox = QLineEdit(self)
         self.TPbox.windowTitle = "SL USDT"
         self.TPbox.move(self.marginSLTPxPosOffset  + 130, self.marginSLTPyPosOffset + 170)
@@ -157,16 +157,51 @@ class App(QMainWindow):
 
 
 
-        self.buyQTYLabel = QLabel(self)
-        self.buyQTYLabel.setText("Buy Qty(USDT)")
-        self.buyQTYLabel.move(self.marginSLTPxPosOffset ,self.marginSLTPyPosOffset + 230)
-        self.buyQTYLabel.adjustSize()
-        self.buyQTYLabel.setLineWidth(100)
+        
         #create Buy Qty box
         self.TPpriceValue = QLabel(self)
         self.TPpriceValue.setText("")
-        self.TPpriceValue.move(self.marginSLTPxPosOffset +60,self.marginSLTPyPosOffset + 500)
         self.TPpriceValue.setLineWidth(100)
+        self.TPpriceValue.move(self.marginSLTPxPosOffset  + 130 ,self.marginSLTPyPosOffset + 500)
+
+        self.buyQTYLabel = QLabel(self)
+        self.buyQTYLabel.setText("Buy Qty(USDT)")
+        self.buyQTYLabel.move(self.marginSLTPxPosOffset ,self.marginSLTPyPosOffset + 230)
+        #self.buyQTYLabel.adjustSize()
+        self.buyQTYLabel.setLineWidth(100)
+
+         # Create SL  textbox
+        self.TPbox = QLineEdit(self)
+        self.TPbox.windowTitle = "Buy Qty(USDT)"
+        self.TPbox.move(self.marginSLTPxPosOffset  + 130, self.marginSLTPyPosOffset + 230)
+        self.TPbox.resize(100,40)
+
+        #create Margin Multiplier label
+        self.marginMultSLTPLabel = QLabel(self)
+        self.marginMultSLTPLabel.setText("Margin multiplier")
+        self.marginMultSLTPLabel.move(self.marginSLTPxPosOffset ,self.marginSLTPyPosOffset + 290)
+        self.marginMultSLTPLabel.adjustSize()
+        self.marginMultSLTPLabel.setLineWidth(100)
+
+        #create  Margin Multiplier textbox
+        self.marginMultSLTPBox = QLineEdit(self)
+        self.marginMultSLTPBox.move(self.marginSLTPxPosOffset + 150, self.marginSLTPyPosOffset + 280)
+        self.marginMultSLTPBox.resize(100,40)
+
+        #create fee percent SLTP label
+        self.sellPricelabelSLTP = QLabel(self)
+        self.sellPricelabelSLTP.setText("Fees percent")
+        self.sellPricelabelSLTP.move(self.marginSLTPxPosOffset ,self.marginSLTPyPosOffset + 330)
+        self.sellPricelabelSLTP.setLineWidth(100)
+
+        #create fees percent textbox
+        self.feesPercenteBoxSLTP = QLineEdit(self)
+        self.feesPercenteBoxSLTP.windowTitle = "fees percent textbox"
+        self.feesPercenteBoxSLTP.move(self.marginSLTPxPosOffset + 150, self.marginSLTPyPosOffset + 340)
+        self.feesPercenteBoxSLTP.resize(100,40)
+
+
+        
 
         self.CalcPricesButton = QPushButton('Calculate prices for SL and TP', self)
         self.CalcPricesButton.setDefault = True
@@ -183,7 +218,7 @@ class App(QMainWindow):
         #create Result percent label
         self.TPpriceValue = QLabel(self)
         self.TPpriceValue.setText("")
-        self.TPpriceValue.move(self.marginSLTPxPosOffset +60,self.marginSLTPyPosOffset + 460)
+        self.TPpriceValue.move(self.marginSLTPxPosOffset +120,self.marginSLTPyPosOffset + 455)
         self.TPpriceValue.setLineWidth(100)
 
         self.SLpriceLabel = QLabel(self)
@@ -197,15 +232,18 @@ class App(QMainWindow):
 
 
         #create  Margin Multiplier textbox
-        self.buyQtyBox = QLineEdit(self)
-        self.buyQtyBox.move(self.marginSLTPxPosOffset + 125, self.marginSLTPyPosOffset + 220)
-        self.buyQtyBox.resize(100,40)
+        self.SLpriceValue = QLabel(self)
+        self.TPpriceValue.setText("")
+        self.SLpriceValue.move(self.marginSLTPxPosOffset + 120, self.marginSLTPyPosOffset + 495)
+        self.SLpriceValue.resize(100,40)
+        self.TPpriceValue.setLineWidth(100)
 
 
 
 
         # connect button to function on_click
         self.CalcPercentButton.pressed.connect(self.on_click)
+        self.CalcPricesButton.pressed.connect(self.on_click_SLTP)
         self.show()
     
     @pyqtSlot()
@@ -221,6 +259,14 @@ class App(QMainWindow):
         result = f'{PLpercent:.2f}' #formats output to 2 decimal places.
         
         self.ResultPercentlabel.setText(str(result))
+
+    @pyqtSlot()
+    def on_click_SLTP(self):
+        
+        
+        
+        self.TPpriceValue.setText("5.0")
+        self.SLpriceValue.setText("10.0")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
