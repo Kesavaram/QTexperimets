@@ -11,16 +11,16 @@ class App(QMainWindow):
         self.title = 'PyQt5 P&L calculator'
         self.left = 50
         self.top = 50
-        self.width = 500
-        self.height = 500
+        self.width = 750
+        self.height = 750
         self.initUI()
     
     def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
-        self.xPosPLOffset = 100
-        self.yPosPLOffset = 100
+        self.xPosPLOffset = 225
+        self.yPosPLOffset = 25
 
         #create a label
         self.titleLabel = QLabel(self)
@@ -54,36 +54,51 @@ class App(QMainWindow):
         self.sellPricelabel.move(self.xPosPLOffset + 10,self.yPosPLOffset + 120)
         self.sellPricelabel.setLineWidth(100)
 
+
+
+        #create Margin Multiplier label
+        self.marginMultLabel = QLabel(self)
+        self.marginMultLabel.setText("Margin multiplier")
+        self.marginMultLabel.move(self.xPosPLOffset - 25,self.yPosPLOffset + 185)
+        self.marginMultLabel.adjustSize()
+        self.marginMultLabel.setLineWidth(100)
+
+        #create  Margin Multiplier textbox
+        self.marginMultBox = QLineEdit(self)
+        self.marginMultBox.move(self.xPosPLOffset + 100, self.yPosPLOffset + 180)
+        self.marginMultBox.resize(100,40)
+
+
         #create fee percent label
         self.sellPricelabel = QLabel(self)
         self.sellPricelabel.setText("Fees percent")
-        self.sellPricelabel.move(self.xPosPLOffset + 10,self.yPosPLOffset + 180)
+        self.sellPricelabel.move(self.xPosPLOffset + 10,self.yPosPLOffset + 300)
         self.sellPricelabel.setLineWidth(100)
 
         #create fees percent textbox
         self.feesPercenteBox = QLineEdit(self)
         self.feesPercenteBox.windowTitle = "sell"
-        self.feesPercenteBox.move(self.xPosPLOffset + 100, self.yPosPLOffset + 180)
+        self.feesPercenteBox.move(self.xPosPLOffset + 100, self.yPosPLOffset + 300)
         self.feesPercenteBox.resize(100,40)
 
 
          #create Result label
         self.Resultlabel = QLabel(self)
         self.Resultlabel.setText("Percent:")
-        self.Resultlabel.move(self.xPosPLOffset + 10,self.yPosPLOffset + 300)
+        self.Resultlabel.move(self.xPosPLOffset + 10,self.yPosPLOffset + 500)
         self.Resultlabel.setLineWidth(100)
 
         #create Result percent label
         self.ResultPercentlabel = QLabel(self)
         self.ResultPercentlabel.setText("")
-        self.ResultPercentlabel.move(self.xPosPLOffset + 90,self.yPosPLOffset + 300)
+        self.ResultPercentlabel.move(self.xPosPLOffset + 90,self.yPosPLOffset + 500)
         self.ResultPercentlabel.setLineWidth(100)
 
         # Create a button in the window
         self.button = QPushButton('Calculate', self)
         self.button.setDefault = True
         self.button.setAutoDefault = False
-        self.button.move(self.xPosPLOffset + 20,self.yPosPLOffset + 250)
+        self.button.move(self.xPosPLOffset + 20,self.yPosPLOffset + 400)
         
         # connect button to function on_click
        
@@ -95,7 +110,11 @@ class App(QMainWindow):
         buyPrice = float(self.buyPriceBox.text()) 
         sellPrice = float(self.sellPriceBox.text())
         feesPercent = float(self.feesPercenteBox.text())
-        PLpercent = ((sellPrice - buyPrice) / buyPrice )*100.00 - 2*feesPercent
+        marginMultiplier = float(self.marginMultBox.text())
+        diff = marginMultiplier*(sellPrice - buyPrice)
+        tradingFees = marginMultiplier*feesPercent*(buyPrice + sellPrice)/100.00
+        netAmt = diff - tradingFees
+        PLpercent = ((netAmt) / buyPrice )*100.00 
         result = f'{PLpercent:.2f}' #formats output to 2 decimal places.
         
         self.ResultPercentlabel.setText(str(result))
