@@ -1,4 +1,3 @@
-
 import sys
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QLabel
 from PyQt5.QtGui import QIcon
@@ -139,7 +138,7 @@ class App(QMainWindow):
  
         # Create TP  textbox
         self.TPbox = QLineEdit(self)
-        self.TPbox.windowTitle = "TP USDT"
+        self.TPbox.windowTitle = "TP textbox"
         self.TPbox.move(self.marginSLTPxPosOffset  + 130, self.marginSLTPyPosOffset + 120)
         self.TPbox.resize(100,40)
 
@@ -150,19 +149,16 @@ class App(QMainWindow):
         self.TP.setLineWidth(100)
  
         # Create SL  textbox
-        self.TPbox = QLineEdit(self)
-        self.TPbox.windowTitle = "SL USDT"
-        self.TPbox.move(self.marginSLTPxPosOffset  + 130, self.marginSLTPyPosOffset + 170)
-        self.TPbox.resize(100,40)
+        self.SLbox = QLineEdit(self)
+        self.SLbox.windowTitle = "SL USDT"
+        self.SLbox.move(self.marginSLTPxPosOffset  + 130, self.marginSLTPyPosOffset + 170)
+        self.SLbox.resize(100,40)
 
 
 
         
         #create Buy Qty box
-        self.TPpriceValue = QLabel(self)
-        self.TPpriceValue.setText("")
-        self.TPpriceValue.setLineWidth(100)
-        self.TPpriceValue.move(self.marginSLTPxPosOffset  + 130 ,self.marginSLTPyPosOffset + 500)
+        
 
         self.buyQTYLabel = QLabel(self)
         self.buyQTYLabel.setText("Buy Qty(USDT)")
@@ -170,11 +166,11 @@ class App(QMainWindow):
         #self.buyQTYLabel.adjustSize()
         self.buyQTYLabel.setLineWidth(100)
 
-         # Create SL  textbox
-        self.TPbox = QLineEdit(self)
-        self.TPbox.windowTitle = "Buy Qty(USDT)"
-        self.TPbox.move(self.marginSLTPxPosOffset  + 130, self.marginSLTPyPosOffset + 230)
-        self.TPbox.resize(100,40)
+         # Create Buy Qty(USDT)  textbox
+        self.buyUST = QLineEdit(self)
+        self.buyUST.windowTitle = "Buy Qty(USDT)"
+        self.buyUST.move(self.marginSLTPxPosOffset  + 130, self.marginSLTPyPosOffset + 230)
+        self.buyUST.resize(100,40)
 
         #create Margin Multiplier label
         self.marginMultSLTPLabel = QLabel(self)
@@ -262,11 +258,26 @@ class App(QMainWindow):
 
     @pyqtSlot()
     def on_click_SLTP(self):
-        
-        
-        
+        netAmtTP = float(self.TPbox.text())
+        netAmtSL = float(self.SLbox.text())
+        buyUSDT = float(self.buyUST.text())
+        marginMultSLTP = float(self.marginMultSLTPBox.text())
+        feesSLTP = float(self.feesPercenteBoxSLTP.text())
+
+        print("netAMTTP = ", netAmtTP)
+        print("net amt SL = ", netAmtSL)
+        print("buyUSDT = ", buyUSDT)
+        print("marginMultSLTP = ", marginMultSLTP)
+        print("feesSLTP = ", feesSLTP)
+
         self.TPpriceValue.setText("5.0")
         self.SLpriceValue.setText("10.0")
+
+
+
+        
+        
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
