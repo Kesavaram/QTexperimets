@@ -161,16 +161,16 @@ class App(QMainWindow):
         
 
         self.buyQTYLabel = QLabel(self)
-        self.buyQTYLabel.setText("Buy Qty(USDT)")
+        self.buyQTYLabel.setText("Buy Qty inc Margin")
         self.buyQTYLabel.move(self.marginSLTPxPosOffset ,self.marginSLTPyPosOffset + 230)
-        #self.buyQTYLabel.adjustSize()
+        self.buyQTYLabel.adjustSize()
         self.buyQTYLabel.setLineWidth(100)
 
          # Create Buy Qty(USDT)  textbox
-        self.buyUST = QLineEdit(self)
-        self.buyUST.windowTitle = "Buy Qty(USDT)"
-        self.buyUST.move(self.marginSLTPxPosOffset  + 130, self.marginSLTPyPosOffset + 230)
-        self.buyUST.resize(100,40)
+        self.buyQty = QLineEdit(self)
+        self.buyQty.windowTitle = "Buy Qty inc Margin"
+        self.buyQty.move(self.marginSLTPxPosOffset  + 150, self.marginSLTPyPosOffset + 230)
+        self.buyQty.resize(100,40)
 
         #create Margin Multiplier label
         self.marginMultSLTPLabel = QLabel(self)
@@ -258,20 +258,31 @@ class App(QMainWindow):
 
     @pyqtSlot()
     def on_click_SLTP(self):
+        buyPrice = float(self.buyPriceBoxSLTP.text())
         netAmtTP = float(self.TPbox.text())
         netAmtSL = float(self.SLbox.text())
-        buyUSDT = float(self.buyUST.text())
+        buyQty = float(self.buyQty.text())
         marginMultSLTP = float(self.marginMultSLTPBox.text())
         feesSLTP = float(self.feesPercenteBoxSLTP.text())
 
+        SellPriceTP = (netAmtTP + buyPrice*buyQty + marginMultSLTP*feesSLTP*buyPrice*buyQty/100.00) / ( buyQty)
+        sellPriceSL = (-netAmtSL + buyPrice*buyQty + marginMultSLTP*feesSLTP*buyPrice*buyQty/100.00) / ( buyQty)
+
+        print("buyPrice = ", buyPrice)
         print("netAMTTP = ", netAmtTP)
         print("net amt SL = ", netAmtSL)
-        print("buyUSDT = ", buyUSDT)
+        print("buyQty = ", buyQty)
         print("marginMultSLTP = ", marginMultSLTP)
         print("feesSLTP = ", feesSLTP)
 
-        self.TPpriceValue.setText("5.0")
-        self.SLpriceValue.setText("10.0")
+        print("PLresult = ", SellPriceTP)
+        print("SLresult = ", sellPriceSL)
+
+        SLresult = f'{sellPriceSL:.4f}'
+        PLresult = f'{SellPriceTP:.4f}'
+
+        self.TPpriceValue.setText(str(SellPriceTP))
+        self.SLpriceValue.setText(str(sellPriceSL))
 
 
 
